@@ -1,0 +1,16 @@
+<?php
+/*Trackers de Club Penguin v1.0.0
+* logout.php | Archivo de cierre de sesión.
+*Copyright Zer!
+*/
+
+
+session_start();
+
+if(isset($_SESSION['usuario'])) {
+	session_destroy();
+	header("Location: index.php?p=acceso");
+}else {
+	header("Location: index.php?p=acceso");
+}
+?>

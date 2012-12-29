@@ -1,0 +1,49 @@
+<?php
+/*Trackers de Club Penguin v1.0.0
+* login.php | Archivo de ACCESO.
+*Copyright Zer!
+*/
+cabecera();
+session_start();
+if(!empty($_SESSION['usuario'])){
+	header("Location: index.php");
+}else{
+	if(isset($_POST['enviar-acceso'])) {
+	if(empty($_POST['usuario-acceso']) || empty($_POST['clave-acceso'])) {
+	zer_error("<div class='alert alert-error'><button type='button' class='close' data-dismiss='alert'>×</button>
+<i class='icon-remove'></i><b> &iexcl;Error!</b> No puedes dejar campos vac&iacute;os. </div>");
+}else{
+	if($_POST['usuario-acceso'] == USUARIO && $_POST['clave-acceso'] == CLAVE) {
+$_SESSION['usuario'] = "CP";
+sleep(3);
+header("Location: index.php");
+		}else { zer_error("
+<div class='alert alert-error'>
+ <button type='button' class='close' data-dismiss='alert'>×</button>
+<i class='icon-remove'></i> <b>&iexcl;Error!</b> El nombre de usuario o contrase&ntilde;a son incorrectos... </div>
+");
+	}
+     }
+  }
+}
+?>
+<hr>
+<div class="hero-unit"><h1><u> Bienvenido al acceso...</u></h1> <br><br>
+
+<form action="<?php echo $_SERVER['PHP_SELF']. '?p=acceso' ?>" method="post" class="form-horizontal">
+<div class="control-group"><label class="control-label" for="inputEmail">
+ Nombre de Usuario:</label> <div class="controls"><input type="text" name="usuario-acceso" placeholder="Tu usuario" class="input-medium search-query" id="inputEmail">
+ </div>
+  </div>
+  <div class="control-group">
+   <label class="control-label" for="inputPassword">
+Contrase&ntilde;a: </label> <div class="controls"> <input type="password" name="clave-acceso" placeholder="Tu clave" class="input-medium search-query"><br>
+  </div>
+  </div>
+
+<hr><button type="submit" name="enviar-acceso" value="Enviar datos" class="btn btn-primary" data-loading-text="Cargando..." >Enviar </button>
+</form>
+</div>
+<?php
+pies();
+

@@ -1,0 +1,93 @@
+<?php
+/*Trackers de Club Penguin v1.0.0
+* actualizar.php | Archivo de actualización del Tracker.
+*Copyright Zer!
+*/
+session_start();
+// Eso no puede faltar...
+if(isset($_SESSION['usuario'])) {
+//Comprobamos que haya una sesion activa...
+require_once(INC . '/cpoauth.php'); 
+//Requerimos el archivo de OAUTH.
+$status = $_POST['estado']; //El estado
+$server = $_POST['servidor']; //Servidor...
+$room = $_POST['sala']; //Sala... 
+
+$select = $_POST['select'];
+if(isset($_POST['enviar'])){ 
+//Comprobamos que se hayan enviado los datos...
+$online = $_POST['online'];
+$tracking = $_POST['trackeando'];
+$left = $_POST['sefue'];
+$move = $_POST['movio'];
+if( file_exists(IMG_BG)) {
+$im = imagecreatefrompng('./'.IMG_BG); // c:
+$colour = imagecolorallocate($im, 0, 0, 0);  
+$font = INC. '/tipografia.ttf'; // 
+}
+//Cumplimos la funcion de imagen y requerimos a la imagen ya escrita...
+
+require_once("./imagen.php");
+$lostweets = array (
+
+"encontrado" => $tweet_encontrado,
+"sefue" => $tweet_se_fue,
+"movio" => $tweet_movio,
+"track" => $tweeT_track 
+
+);
+
+
+//Hacemos la conexion al oAuth de twitter...
+$tweet = new TwitterOAuth($ConsumerKey, $ConsumerSecret, $oAuthToken, $oAuthSecret);
+
+//Definimos los tweets...
+
+$tweet->post('statuses/update', array('status' =>$lostweets[$select]));
+
+$mensaje_de_salida = "
+<div class='alert alert-success'>
+	 <button type='button' class='close' data-dismiss='alert'>×</button>
+<b> ¡Genial! </b> El Tracker fue actualizado... :) </div>
+";
+
+if(file_exists(IMG) and file_exists(IMG_BG)){
+echo $mensaje_de_salida;
+ }elseif(!file_exists(IMG_BG) && file_exists(IMG)) {
+zer_error("<div class='alert alert-error'><button type='button' class='close' data-dismiss='alert'>×</button>
+<i class='icon-remove'></i><b> &iexcl;Error!</b> Los archivos <b>". IMG_BG."</b> y <b>".IMG."</b> no existen... </div>");
+}elseif(!file_exists(IMG_BG)) { zer_error("
+<div class='alert alert-error'><button type='button' class='close' data-dismiss='alert'>×</button>
+<i class='icon-remove'></i><b> &iexcl;Error!</b> El archivo <b>".IMG_BG."</b> no existe... </div>");
+}elseif(! file_exists(IMG)) {
+zer_error("<div class='alert alert-error'><button type='button' class='close' data-dismiss='alert'>×</button>
+<i class='icon-remove'></i><b> &iexcl;Error!</b> El archivo <b>". IMG . "</b> no existe...</div>");
+	}
+} 
+?>
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" />
+
+<input type="text" name="estado" value="<?php echo $_POST['estado']; ?>" placeholder="Estado..."/><br />
+
+<input type="text" name="servidor" value="<?php echo $_POST['servidor']; ?>" placeholder="Servidor..."><br />
+
+<input type="text" name="sala" value="<?php echo $_POST['sala']; ?>" placeholder="Sala..."/><br />
+<br/>
+<br/>
+<hr>
+<br/>
+<b> Twitear: </b><br/>
+<input type="radio" name="select" value="encontrado" /> Encontrado <br /> 
+<input type="radio" name="select" value="track" /> Dej&oacute; el servidor<br />
+<input type="radio" name="select" value="sefue" /> Trackeando  <br /> 
+<input type="radio" name="select" value="movio" /> Cambi&oacute; de Sala<br />
+<hr>
+<p><input type="submit" name="enviar" value="Actualizar Tracker" class="btn btn-primary"/></p>
+</form>
+<hr> 
+<h3> La imagen </h3> <hr>
+<?php if( file_exists(IMG)) { ?>
+<center> <img src="<?php echo IMG; ?>"> </center>
+<?php } else { ?>
+<div class="alert alert-error"><i class='icon-remove'></i> <b>&iexcl;Lo siento!</b> El archivo <b><?php echo IMG; ?></b> no existe... :( </div> <?php } ?> <br>
+<?php  }else { header("Location: index.php?p=acceso");  }

@@ -1,0 +1,66 @@
+<?php
+/*Trackers de Club Penguin v1.0.0
+* funciones.php | Archivo de funciones...
+*Copyright Zer!
+*/
+	function cabecera() {
+?>
+	<!DOCTYPE html>
+	<html lang="es">
+	<head>
+<meta http-equiv="Content-Type" content="text/html; charset= UTF-8">
+<meta name="Robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> <?php echo EL_TITULO; ?>  </title>
+<style type="text/css">
+body {
+padding-top: 60px; 
+</style>
+		<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css" rel="stylesheet">
+	</head>
+<body>
+    <div class="container">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="index.php"><?php echo EL_TITULO; ?></a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="/index.php">Inicio</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+<?php if(isset($_SESSION['usuario'])) {
+?>
+<ul class="pager">
+  <li class="next">
+	<a href="index.php?p=logout"> Cerrar sesi&oacute;n &rarr; </a>
+  </li>
+</ul>
+<?php
+	}
+} function pies() {
+?>
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="//twitter.github.com/bootstrap/assets/js/bootstrap-alert.js"></script>
+</script>
+	</body>
+	</html>
+<?php
+}
+function zer_error($texto) {
+	echo $texto;
+}
+$cp = "#ClubPenguin";
+$r = rand(1, 100);
+if (! defined('INC')) { define("INC", "incluye"); }
+?>
+
